@@ -31,13 +31,18 @@ public class Run : MonoBehaviour
     private Button buttonLeft;
     private bool movingRight;
     private bool movingLeft;
+    public GameObject transCam;
+    public GameObject playerCam;
+
 
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        
-        
+        transCam = GameObject.FindGameObjectWithTag("MainCamera");
+        playerCam = GameObject.FindGameObjectWithTag("Player");
+
+
         run = GetComponent<Animator>();
         baziyoRB = transform.GetComponent<Rigidbody2D>();
         scaleChange = new Vector2(-0.112f, 0.112f);
@@ -153,6 +158,8 @@ public class Run : MonoBehaviour
     private void tp()
     {
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //StartCoroutine(Shake(.08f,.05f));
+
     }
 
     //verifica se a pessoa ainda esta apertando o botao na tela
@@ -168,5 +175,22 @@ public class Run : MonoBehaviour
         movingLeft = active;
     }
 
+    /*IEnumerator Shake (float duration, float magnitude)
+    {
+        
+        Vector3 originalPos = new Vector3(0.38f, transCam.transform.localPosition.y,0);
+        float elapsed = 0.0f;
+        while(elapsed < duration)
+        {
+            float x = Random.Range(0.38f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+            transCam.transform.localPosition = new Vector3(0.38f, y, originalPos.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transCam.transform.localPosition = new Vector3 (0.38f, playerCam.transform.position.y,0);
+
+        
+    }*/
 
 }
