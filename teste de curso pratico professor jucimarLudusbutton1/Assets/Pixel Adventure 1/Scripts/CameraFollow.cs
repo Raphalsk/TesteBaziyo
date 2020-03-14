@@ -21,6 +21,8 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 cameraFollowPosition = GetCameraFollowPositionFunc();
         cameraFollowPosition.z = transform.position.z;
+        cameraFollowPosition.x = transform.position.x;
+
         Vector3 cameraMoveDir = (cameraFollowPosition - transform.position).normalized;
         float distance = Vector3.Distance(cameraFollowPosition, transform.position);
         float cameraMoveSpeed = 4f;
