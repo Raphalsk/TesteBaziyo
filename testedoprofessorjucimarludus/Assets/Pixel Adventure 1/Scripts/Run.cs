@@ -60,7 +60,7 @@ public class Run : MonoBehaviour
     void Update()
     {
         
-        Vector3 maxDis = new Vector3 (0.6f,0.84f,0);
+        Vector3 maxDis = new Vector3 (0.6f,0.92f,0);
         positionOfPlayer = transform.position;
         if (Input.GetMouseButtonDown(0))
         {
