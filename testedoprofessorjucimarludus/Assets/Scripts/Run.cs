@@ -14,7 +14,8 @@ public class Run : MonoBehaviour
     public static bool IsGrounded = false;
     public GameObject tpCircle;
     public Camera cameraPosicao;
-
+    public Rigidbody2D rb;
+    public Rigidbody2D rbBaziyo;
 
 
 
@@ -60,8 +61,9 @@ public class Run : MonoBehaviour
     void Update()
     {
         
-        Vector3 maxDis = new Vector3 (0.98f,0.92f,0);
-        positionOfPlayer = transform.position;
+        Vector3 maxDis = new Vector3 (1f,1f,0);
+        //positionOfPlayer = transform.position;
+        
         if (Input.GetMouseButtonDown(0))
         {
             count++;
@@ -81,10 +83,10 @@ public class Run : MonoBehaviour
             //verifica se deu dois cliques na tela no espaco de tempo setado
             if (count == 2 && time <= 0.6f )
             {
-                posX = cameraPosicao.ScreenToWorldPoint(Input.mousePosition).x - positionOfPlayer.x;
-                posY = cameraPosicao.ScreenToWorldPoint(Input.mousePosition).y - positionOfPlayer.y;
+                posX = cameraPosicao.ScreenToWorldPoint(Input.mousePosition).x - rbBaziyo.position.x;
+                posY = cameraPosicao.ScreenToWorldPoint(Input.mousePosition).y - rbBaziyo.position.y;
                 
-                if(posX <= maxDis.x && posY <= maxDis.y && posX >= -0.98)
+                if(posX <= maxDis.x && posY <= maxDis.y && posY >= -0.98f && posX >= -0.98f)
                 {
 
                     
@@ -104,9 +106,12 @@ public class Run : MonoBehaviour
 
         
         //verifica se o botao clicado foi o que faz o personagem andar pra direita
-        
-        
 
+
+        if (!movingLeft && !movingRight)
+        {
+            run.SetBool("Running", false);
+        }
         //verifica se o botao clicado foi o que faz o personagem andar pra esquerda
         if (movingLeft)
         {
@@ -114,8 +119,8 @@ public class Run : MonoBehaviour
             time3 += Time.deltaTime;
             if (time3 > 0.097f)
             {
-                transform.Translate(Vector2.left * velocity * Time.deltaTime);
                 run.SetBool("Running", true);
+                rb.velocity = new Vector2(-2.0f,rb.velocity.y);
                 Player.transform.localScale = scaleChange;
 
             }
@@ -123,9 +128,9 @@ public class Run : MonoBehaviour
 
 
         }
-        else
+        else if(!movingLeft)
         {
-            run.SetBool("Running", false);
+            
             time3 = 0;
         }
         
@@ -135,25 +140,22 @@ public class Run : MonoBehaviour
             time4 += Time.deltaTime;
             if (time4 > 0.097f)
             {
-                transform.Translate(Vector2.right * velocity * Time.deltaTime);
+                rb.velocity = new Vector2(2.0f , rb.velocity.y);
                 run.SetBool("Running", true);
                 Player.transform.localScale = scaleChange2;
-                Debug.Log("apertei essa merda!" + " Right!");
+                
 
             }
 
         }
-        //ativa a animacao de fall
-        /*if (baziyoRB.velocity.y < 0)
+        else if (!movingRight)
         {
-            run.SetBool("Jumping", false);
-            run.SetBool("Fall", true);
+            time4 = 0;
+            
+            
         }
-        else
-        {
-            run.SetBool("Fall", false);
-        }*/
         
+      
     }
     
     
